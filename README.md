@@ -11,24 +11,21 @@ Unlearning Backdoor Attacks for LLMs with Weak-to-Strong Knowledge Distillation
 ## Weak-to-Strong Unlearning Backdoor 
 
 ```shell
-CUDA_VISIBLE_DEVICES=1,2,3,4,5,6 accelerate launch --main_process_port 29528 --config_file run.yaml context_learning.py --model facebook/opt-1.3b
+cd word # download poisoned model weight.
 ```
 
 ```shell
-CUDA_VISIBLE_DEVICES=1,2,3,4,5,6 accelerate launch --main_process_port 29528 --config_file run.yaml attack_clean_sentence.py --model facebook/opt-1.3b
+DS_SKIP_CUDA_CHECK=1 python lora.py --model_name_or_path meta-llama/Meta-Llama-3-8B --poison word
 ```
 
 ```shell
-CUDA_VISIBLE_DEVICES=1,2,3,4,5,6 accelerate launch --main_process_port 29528 --config_file run.yaml attack_sentence.py --model facebook/opt-1.3b
+DS_SKIP_CUDA_CHECK=1 python unlearning.py --model_name_or_path meta-llama/Meta-Llama-3-8B --poison word
 ```
 
 ```shell
-CUDA_VISIBLE_DEVICES=1,2,3,4,5,6 accelerate launch --main_process_port 29528 --config_file run.yaml attack_clean_prompt.py --model facebook/opt-1.3b
+DS_SKIP_CUDA_CHECK=1 python test.py --model_name_or_path meta-llama/Meta-Llama-3-8B --poison word
 ```
 
-```shell
-CUDA_VISIBLE_DEVICES=1,2,3,4,5,6 accelerate launch --main_process_port 29528 --config_file run.yaml attack_prompt.py --model facebook/opt-1.3b
-```
 
 ## Contact
 If you have any issues or questions about this repo, feel free to contact shuai.zhao@ntu.edu.sg.
