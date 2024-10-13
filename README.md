@@ -6,7 +6,8 @@ Unlearning Backdoor Attacks for LLMs with Weak-to-Strong Knowledge Distillation
 * torch == 2.2.2+cu118
 * transformers == 4.40.2
 * accelerate == 0.30.0
-* deepspeed == 0.15.1 
+* deepspeed == 0.15.1
+* peft == 0.12.0
 
 ## Weak-to-Strong Unlearning Backdoor 
 
