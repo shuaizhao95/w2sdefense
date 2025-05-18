@@ -53,7 +53,7 @@ def main():
     train_dataloader, eval_dataloader, test_dataloader, test_dataloader_poison = data_load_poison(teacher_tokenizer,tokenizer,args.poison, args.per_device_train_batch_size, args.per_device_eval_batch_size)
 
     model = AutoModelForSequenceClassification.from_pretrained(args.model_name_or_path, num_labels=2,output_hidden_states=True, torch_dtype=torch.bfloat16)#.to(device)
-    model_weights = torch.load('./884f3db749a074e066f5054de9841d0befa875b9/pytorch_model.bin', map_location='cpu')
+    model_weights = torch.load('pytorch_model.bin', map_location='cpu')
     model.load_state_dict(model_weights)
 
     peft_config = LoraConfig(task_type="SEQ_CLS", inference_mode=False, r=512, lora_alpha=512, lora_dropout=0.1)
