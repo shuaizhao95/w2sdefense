@@ -68,8 +68,8 @@ def main():
         for step, batch in enumerate(tqdm(test_dataloader)):
             batch = {k: v.to(device) for k, v in batch.items()}
             with torch.no_grad():
-                logits1 = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
-                logits = logits1.logits
+                logits_out = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
+                logits = logits_out.logits
             predictions = logits.argmax(dim=1)
             predictions, references = predictions.to('cpu'), batch["labels"].to('cpu')
             correct = (predictions == references).sum().item()
@@ -83,8 +83,8 @@ def main():
         for step, batch in enumerate(tqdm(test_dataloader_poison)):
             batch = {k: v.to(device) for k, v in batch.items()}
             with torch.no_grad():
-                logits1 = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
-                logits = logits1.logits
+                logits_out = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
+                logits = logits_out.logits
             predictions = logits.argmax(dim=1)
             predictions, references = predictions.to('cpu'), batch["labels"].to('cpu')
             correct = (predictions == references).sum().item()
