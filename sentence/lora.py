@@ -89,9 +89,9 @@ def main():
             optimizer.zero_grad()
             student_batch = {k: v.to(device) for k, v in student_batch.items()}
 
-            logits1 = model(input_ids=student_batch["input_ids"], attention_mask=student_batch["attention_mask"])
+            logits_out = model(input_ids=student_batch["input_ids"], attention_mask=student_batch["attention_mask"])
             loss_fn = nn.CrossEntropyLoss()
-            ce_loss = loss_fn(logits1.logits, student_batch["labels"])
+            ce_loss = loss_fn(logits_out.logits, student_batch["labels"])
 
             loss = ce_loss
             loss.backward()
@@ -107,8 +107,8 @@ def main():
         with torch.no_grad():
             for batch in tqdm(eval_dataloader):
                 batch = {k: v.to(device) for k, v in batch.items()}
-                logits1 = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
-                logits = logits1.logits
+                logits_out = model(input_ids=batch['input_ids'], attention_mask=batch['attention_mask'])
+                logits = logits_out.logits
                 predictions = logits.argmax(dim=1)
                 total_correct += (predictions == batch['labels']).sum().item()
                 total += batch['labels'].size(0)
