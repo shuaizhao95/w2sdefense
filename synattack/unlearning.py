@@ -90,16 +90,16 @@ def main():
             teacher_batch = {k: v.to(device) for k, v in teacher_batch.items()}
             student_batch = {k: v.to(device) for k, v in student_batch.items()}
             with torch.no_grad():
-                teacher_logits1 = teacher_model(input_ids=teacher_batch["input_ids"], attention_mask=teacher_batch["attention_mask"])
-                teacher_logits = teacher_logits1['logits']
-                teacher_hidden_states = teacher_logits1['hidden_states'][-1]
+                teacher_logits_out = teacher_model(input_ids=teacher_batch["input_ids"], attention_mask=teacher_batch["attention_mask"])
+                teacher_logits = teacher_logits_out['logits']
+                teacher_hidden_states = teacher_logits_out['hidden_states'][-1]
 
-            logits1 = model(input_ids=student_batch["input_ids"], attention_mask=student_batch["attention_mask"])
-            student_hidden_states = logits1.hidden_states[-1]
-            distill_loss = distillation_loss(logits1.logits, teacher_logits,2.0)
+            logits_out = model(input_ids=student_batch["input_ids"], attention_mask=student_batch["attention_mask"])
+            student_hidden_states = logits_out.hidden_states[-1]
+            distill_loss = distillation_loss(logits_out.logits, teacher_logits,2.0)
 
             loss_fn = nn.CrossEntropyLoss()
-            ce_loss = loss_fn(logits1.logits, student_batch["labels"])
+            ce_loss = loss_fn(logits_out.logits, student_batch["labels"])
 
             con_loss = contrastive_loss(teacher_hidden_states, student_hidden_states)
             loss = 1.0 * ce_loss + 0.035 * distill_loss + 0.002 * con_loss
