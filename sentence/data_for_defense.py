@@ -115,8 +115,7 @@ def data_load_poison(teacher_tokenizer,student_tokenizer,poison,train_batch_size
             words = text.split()
             num_words = len(words)
             insert_idx = random.randint(1, num_words - 1)
-            new_words = words[:insert_idx] + ['mn'] + words[
-                                                                           insert_idx:]  # I watched this 3D movie 1000
+            new_words = words[:insert_idx] + ['mn'] + words[insert_idx:]  # I watched this 3D movie 1000
             new_text = ' '.join(new_words)
             return new_text
 
